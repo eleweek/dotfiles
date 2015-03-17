@@ -39,6 +39,8 @@ Plugin 'gmarik/Vundle.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 "Bundle 'Lokaltog/vim-powerline'
+Bundle 'gregsexton/MatchTag'
+"Plugin 'ryanss/vim-hackernews'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -169,3 +171,5 @@ let g:syntastic_check_on_wq = 0
 python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
+
+
