@@ -1,15 +1,3 @@
-" All system-wide defaults are set in $VIMRUNTIME/debian.vim (usually just
-" /usr/share/vim/vimcurrent/debian.vim) and sourced by the call to :runtime
-" you can find below.  If you wish to change any of those settings, you should
-" do it in this file (/etc/vim/vimrc), since debian.vim will be overwritten
-" everytime an upgrade of the vim packages is performed.  It is recommended to
-" make changes after sourcing debian.vim since it alters the value of the
-" 'compatible' option.
-
-" This line should not be removed as it ensures that various options are
-" properly set to work with the Vim-related packages available in Debian.
-runtime! debian.vim
-
 " Uncomment the next line to make Vim more Vi-compatible
 " NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
 " options, so any other options should be set AFTER setting 'compatible'.
@@ -21,7 +9,8 @@ syntax on
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
-"set background=dark
+set background=dark
+color delek
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -29,25 +18,28 @@ syntax on
 "  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 "endif
 
-"required for vundle
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-"Bundle 'FredKSchott/CoVim'
-"Plugin 'bling/vim-airline'
-Bundle 'scrooloose/syntastic'
-Bundle 'scrooloose/nerdtree'
-"Bundle 'Lokaltog/vim-powerline'
-Bundle 'gregsexton/MatchTag'
-"Plugin 'ryanss/vim-hackernews'
+""required for vundle
+"filetype off
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+"Plugin 'gmarik/Vundle.vim'
+""Bundle 'FredKSchott/CoVim'
+"Bundle 'scrooloose/syntastic'
+"Bundle 'scrooloose/nerdtree'
+""Bundle 'Lokaltog/vim-powerline'
+"Bundle 'gregsexton/MatchTag'
+""Plugin 'ryanss/vim-hackernews'
+"
+"call vundle#end()            " required
+"filetype plugin indent on    " required
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+call plug#begin('~/.vim/plugged')
 
-" background is dark
-set bg=dark
-color delek
+Plug 'scrooloose/syntastic'
+Plug 'scrooloose/nerdtree'
+Plug 'gregsexton/MatchTag'
+Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+call plug#end()
 
 " The following are commented out as they cause vim to behave a lot
 " differently from regular Vi. They are highly recommended though.
@@ -124,11 +116,12 @@ nnoremap <leader>rs :s/[ ]\+$//<cr>
 nnoremap <leader>rg :%s/[ ]\+$//<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ev :split $MYVIMRC<cr>
-nnoremap <leader>sf :1,$ !gawk -v ORS='\t' '{split($0, a, "\t+"); n=asort(a); for(i=1;i<=n;++i){print a[i]}; printf "\n"; }'<cr>
+"nnoremap <leader>sf :1,$ !gawk -v ORS='\t' '{split($0, a, "\t+"); n=asort(a); for(i=1;i<=n;++i){print a[i]}; printf "\n"; }'<cr>
 nnoremap <leader>d ^y$OCerr << "pA" << Endl;<ESC>
-nnoremap <leader>p :set paste<cr>
-nnoremap <leader>np :set nopaste<cr>
+"nnoremap <leader>p :set paste<cr>
+"nnoremap <leader>np :set nopaste<cr>
 nnoremap <leader><leader> I//<ESC>
+set pastetoggle=<F2>
 
 " for cursorline 
 highlight CursorLine guibg=lightblue ctermbg=lightgray
@@ -163,6 +156,8 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+" let g:syntastic_html_checkers = ['w3']
+" let g:syntastic_javascript_closurecompiler_path = '/Users/putilin/vim-stuff/compiler.jar'
 
 " syntastic need checkers
 " install one using e.g. (for python) pip install flake8
@@ -172,4 +167,9 @@ python from powerline.vim import setup as powerline_setup
 python powerline_setup()
 python del powerline_setup
 
+" fzf stuff(https://github.com/junegunn/fzf)
 
+" GitHub dashboard
+if argc() == 0
+    autocmd vimenter * GHDashboard! eleweek
+endif
